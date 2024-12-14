@@ -3,14 +3,18 @@ package net.kamal.usersservices;
 import net.kamal.usersservices.entities.Users;
 import net.kamal.usersservices.enums.UserType;
 import net.kamal.usersservices.repositories.UsersRepository;
+import org.apache.catalina.Globals;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 
 @SpringBootApplication
+@RefreshScope
 public class UsersServicesApplication {
 
     public static void main(String[] args) {

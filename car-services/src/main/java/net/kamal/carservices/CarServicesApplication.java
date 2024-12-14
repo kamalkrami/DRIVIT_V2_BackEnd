@@ -6,9 +6,12 @@ import net.kamal.carservices.enums.Status_add;
 import net.kamal.carservices.enums.Status_dipo;
 import net.kamal.carservices.enums.UserType;
 import net.kamal.carservices.repositories.CarRepository;
+import org.apache.catalina.Globals;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
@@ -25,10 +28,11 @@ public class CarServicesApplication {
     @Bean
     CommandLineRunner commandLineRunner(CarRepository carRepository, UserRestClient userRestClient){
         return args -> {
-            userRestClient.findUsersByStatus(UserType.SUPPLIER).forEach(users -> {
+            userRestClient.getAllSupplier().forEach(users -> {
                 List<Cars> carsList = List.of(
                   Cars.builder()
                           .users(users)
+                          .user_id(users.getId_user())
                           .carName("BMW")
                           .carModel("2024")
                           .carMatricul("I153247")

@@ -10,8 +10,11 @@ import net.kamal.carservices.model.Users;
 public class Cars {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_car;
+
     @Transient
     private Users users;
+    private Long user_id;
+
     private String carName;
     private String carModel;
     private String carMatricul;

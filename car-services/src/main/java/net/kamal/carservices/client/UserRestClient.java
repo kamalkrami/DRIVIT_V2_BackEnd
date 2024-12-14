@@ -22,7 +22,7 @@ public interface UserRestClient {
 
     @GetMapping("/users/supplier")
     @CircuitBreaker(name = "UsersService",fallbackMethod = "defaultFindAllUsers")
-    List<Users> findUsersByStatus(UserType userType);
+    List<Users> getAllSupplier();
 
     default List<Users> defaultFindAllUsers(Exception exception){
         return List.of();
