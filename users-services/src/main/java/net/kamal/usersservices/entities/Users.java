@@ -16,6 +16,6 @@ public class Users {
     private String email;
     private String phone;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private UserType status;
 }

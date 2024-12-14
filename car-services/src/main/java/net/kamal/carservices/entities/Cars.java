@@ -20,9 +20,9 @@ public class Cars {
     private String carMatricul;
     private String carImage;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Status_dipo statusDipo;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Status_add statusAdd;
 }
