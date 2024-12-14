@@ -5,6 +5,7 @@ import net.kamal.carservices.entities.Cars;
 import net.kamal.carservices.enums.Status_add;
 import net.kamal.carservices.enums.Status_dipo;
 import net.kamal.carservices.enums.UserType;
+import net.kamal.carservices.model.Users;
 import net.kamal.carservices.repositories.CarRepository;
 import org.apache.catalina.Globals;
 import org.springframework.boot.CommandLineRunner;
@@ -25,14 +26,14 @@ public class CarServicesApplication {
         SpringApplication.run(CarServicesApplication.class, args);
     }
 
-    @Bean
+/*    @Bean
     CommandLineRunner commandLineRunner(CarRepository carRepository, UserRestClient userRestClient){
         return args -> {
-            userRestClient.getAllSupplier().forEach(users -> {
+            userRestClient.getUsersByType(UserType.SUPPLIER).forEach(users -> {
                 List<Cars> carsList = List.of(
                   Cars.builder()
                           .users(users)
-                          .user_id(users.getId_user())
+                          .id_user(users.getId_user())
                           .carName("BMW")
                           .carModel("2024")
                           .carMatricul("I153247")
@@ -40,6 +41,36 @@ public class CarServicesApplication {
                           .statusDipo(Status_dipo.AVAILABLE)
                           .statusAdd(Status_add.PENDING)
                           .build()
+                );
+                carRepository.saveAll(carsList);
+            });
+        };
+    }*/
+
+    @Bean
+    CommandLineRunner commandLineRunner(CarRepository carRepository, UserRestClient userRestClient){
+        return args -> {
+            List<Users> usersList = userRestClient.getUsersByType(UserType.SUPPLIER);
+
+            if (usersList.isEmpty()) {
+                System.out.println("No users found of type SUPPLIER.");
+                return;
+            }
+
+            // Iterate through each user
+            usersList.forEach(user -> {
+                // Create the list of cars to save
+                List<Cars> carsList = List.of(
+                        Cars.builder()
+                                .users(user)
+                                .id_user(user.getId_user())
+                                .carName("BMW")
+                                .carModel("2024")
+                                .carMatricul("I153247")
+                                .carImage("https://imagecar.com")
+                                .statusDipo(Status_dipo.AVAILABLE)
+                                .statusAdd(Status_add.PENDING)
+                                .build()
                 );
                 carRepository.saveAll(carsList);
             });

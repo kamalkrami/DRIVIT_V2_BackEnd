@@ -20,9 +20,9 @@ public interface UserRestClient {
     @CircuitBreaker(name = "UsersService",fallbackMethod = "defaultFindUserById")
     Users findUserById(@PathVariable Long id_user);
 
-    @GetMapping("/users/supplier")
+    @GetMapping("/users/type/{user_type}")
     @CircuitBreaker(name = "UsersService",fallbackMethod = "defaultFindAllUsers")
-    List<Users> getAllSupplier();
+    List<Users> getUsersByType(@PathVariable UserType user_type);
 
     default List<Users> defaultFindAllUsers(Exception exception){
         return List.of();

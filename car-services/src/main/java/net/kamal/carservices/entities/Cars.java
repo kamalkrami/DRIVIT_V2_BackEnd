@@ -13,7 +13,7 @@ public class Cars {
 
     @Transient
     private Users users;
-    private Long user_id;
+    private Long id_user;
 
     private String carName;
     private String carModel;

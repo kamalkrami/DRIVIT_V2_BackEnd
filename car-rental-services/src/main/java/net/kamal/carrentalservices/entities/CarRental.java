@@ -1,6 +1,7 @@
 package net.kamal.carrentalservices.entities;
 
 import jakarta.persistence.*;
+import jakarta.ws.rs.FormParam;
 import lombok.*;
 import net.kamal.carrentalservices.enums.Status_rental;
 import net.kamal.carrentalservices.model.Cars;
@@ -12,11 +13,17 @@ import java.time.LocalDate;
 public class CarRental {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_carRental;
+
     @Transient
     private Cars cars;
+    private Long id_car;
+
     @Transient
     private Users users;
-    @Temporal(TemporalType.TIMESTAMP)
+    private Long id_user;
+
     private LocalDate rentalTime;
+
+    @Enumerated(EnumType.STRING)
     private Status_rental statusRental;
 }

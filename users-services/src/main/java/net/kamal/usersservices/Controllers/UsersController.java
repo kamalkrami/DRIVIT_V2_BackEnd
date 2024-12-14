@@ -26,9 +26,9 @@ public class UsersController {
         return usersRepository.findById(id_user).get();
     }
 
-    @GetMapping("/users/supplier")
-    public List<Users> getAllSupplier(){
-        return usersRepository.findUsersByStatus(UserType.SUPPLIER);
+    @GetMapping("/users/type/{user_type}")
+    public List<Users> getAllUsersByType(@PathVariable UserType user_type){
+        return usersRepository.findUsersByStatus(user_type);
     }
 
 }

@@ -2,8 +2,12 @@ package net.kamal.carrentalservices.model;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import net.kamal.carrentalservices.enums.UserType;
 
+@Getter @Setter @ToString
 public class Users {
     private Long id_user;
     private String firstName;
@@ -14,6 +18,6 @@ public class Users {
     private String email;
     private String phone;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private UserType status;
 }
