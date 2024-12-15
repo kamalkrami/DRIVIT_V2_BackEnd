@@ -32,6 +32,15 @@
         </processorPath>
         <module name="car-rental-services" />
       </profile>
+      <profile name="Annotation profile for requicet-supplier-services" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath>
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="requicet-supplier-services" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="admin-services" target="21" />
@@ -48,6 +57,7 @@
       <module name="config-services" options="-parameters" />
       <module name="discovery-service" options="-parameters" />
       <module name="gateway-services" options="-parameters" />
+      <module name="requicet-supplier-services" options="-parameters" />
       <module name="user-services" options="-parameters" />
       <module name="users-services" options="-parameters" />
     </option>

@@ -26,27 +26,6 @@ public class CarServicesApplication {
         SpringApplication.run(CarServicesApplication.class, args);
     }
 
-/*    @Bean
-    CommandLineRunner commandLineRunner(CarRepository carRepository, UserRestClient userRestClient){
-        return args -> {
-            userRestClient.getUsersByType(UserType.SUPPLIER).forEach(users -> {
-                List<Cars> carsList = List.of(
-                  Cars.builder()
-                          .users(users)
-                          .id_user(users.getId_user())
-                          .carName("BMW")
-                          .carModel("2024")
-                          .carMatricul("I153247")
-                          .carImage("https://imagecar.com")
-                          .statusDipo(Status_dipo.AVAILABLE)
-                          .statusAdd(Status_add.PENDING)
-                          .build()
-                );
-                carRepository.saveAll(carsList);
-            });
-        };
-    }*/
-
     @Bean
     CommandLineRunner commandLineRunner(CarRepository carRepository, UserRestClient userRestClient){
         return args -> {
