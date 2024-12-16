@@ -3,16 +3,13 @@ package net.kamal.carservices;
 import net.kamal.carservices.client.UserRestClient;
 import net.kamal.carservices.entities.Cars;
 import net.kamal.carservices.enums.Status_add;
-import net.kamal.carservices.enums.Status_dipo;
+import net.kamal.carservices.enums.Status_dispo;
 import net.kamal.carservices.enums.UserType;
 import net.kamal.carservices.model.Users;
 import net.kamal.carservices.repositories.CarRepository;
-import org.apache.catalina.Globals;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
@@ -47,7 +44,7 @@ public class CarServicesApplication {
                                 .carModel("2024")
                                 .carMatricul("I153247")
                                 .carImage("https://imagecar.com")
-                                .statusDipo(Status_dipo.AVAILABLE)
+                                .statusDipo(Status_dispo.AVAILABLE)
                                 .statusAdd(Status_add.PENDING)
                                 .build()
                 );

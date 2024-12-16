@@ -1,23 +1,23 @@
-package net.kamal.requicetsupplierservices.entities;
+package net.kamal.requestsupplierservices.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import net.kamal.requicetsupplierservices.enums.Status;
-import net.kamal.requicetsupplierservices.model.Users;
+import net.kamal.requestsupplierservices.enums.Status;
+import net.kamal.requestsupplierservices.model.Users;
 
 import java.time.LocalDate;
 
 @Entity @Getter @Setter @AllArgsConstructor @NoArgsConstructor @ToString @Builder
-public class RequicetSupplier {
+public class RequestSupplier {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_requicet;
+    private Long id_request;
 
     @Transient
     private Users users;
     private Long id_users;
 
-    private LocalDate requicetDate;
+    private LocalDate requestDate;
 
     @Enumerated(EnumType.STRING)
     private Status status;

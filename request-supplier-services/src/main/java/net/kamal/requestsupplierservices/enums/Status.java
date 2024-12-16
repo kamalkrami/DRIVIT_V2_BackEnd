@@ -1,4 +1,4 @@
-package net.kamal.requicetsupplierservices.enums;
+package net.kamal.requestsupplierservices.enums;
 
 public enum Status {
     PENDING,ACCEPTED,REFUSED

@@ -20,10 +20,10 @@
         <processorPath>
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
-        <module name="requicet-supplier-services" />
         <module name="users-services" />
         <module name="car-rental-services" />
         <module name="car-services" />
+        <module name="request-supplier-services" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -41,7 +41,7 @@
       <module name="config-services" options="-parameters" />
       <module name="discovery-service" options="-parameters" />
       <module name="gateway-services" options="-parameters" />
-      <module name="requicet-supplier-services" options="-parameters" />
+      <module name="request-supplier-services" options="-parameters" />
       <module name="user-services" options="-parameters" />
       <module name="users-services" options="-parameters" />
     </option>

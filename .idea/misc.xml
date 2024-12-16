@@ -15,6 +15,7 @@
         <option value="$PROJECT_DIR$/car-services/pom.xml" />
         <option value="$PROJECT_DIR$/car-rental-services/pom.xml" />
         <option value="$PROJECT_DIR$/requicet-supplier-services/pom.xml" />
+        <option value="$PROJECT_DIR$/request-supplier-services/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

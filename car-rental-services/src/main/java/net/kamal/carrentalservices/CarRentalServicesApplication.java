@@ -34,8 +34,11 @@ public class CarRentalServicesApplication {
             List<Users> users = usersRestClient.getUsersByType(UserType.USER);
             List<Cars> cars = carsRestClient.getAllCarsByStatusDipo(Status_dipo.AVAILABLE);
 
-            if (users.isEmpty() || cars.isEmpty()) {
-                System.out.println("No users or cars found!");
+            if (users.isEmpty()) {
+                System.out.println("No users found!");
+                return;
+            }else if(cars.isEmpty()){
+                System.out.println("No cars found!");
                 return;
             }
 

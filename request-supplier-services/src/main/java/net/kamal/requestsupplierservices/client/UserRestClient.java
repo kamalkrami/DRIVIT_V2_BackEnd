@@ -1,8 +1,8 @@
-package net.kamal.requicetsupplierservices.client;
+package net.kamal.requestsupplierservices.client;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import net.kamal.requicetsupplierservices.enums.UserType;
-import net.kamal.requicetsupplierservices.model.Users;
+import net.kamal.requestsupplierservices.enums.UserType;
+import net.kamal.requestsupplierservices.model.Users;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

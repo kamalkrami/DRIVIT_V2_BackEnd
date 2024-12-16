@@ -1,4 +1,4 @@
-package net.kamal.requicetsupplierservices;
+package net.kamal.requestsupplierservices;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

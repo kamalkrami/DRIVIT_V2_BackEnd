@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>net.kamal</groupId>
-    <artifactId>requicet-supplier-services</artifactId>
+    <artifactId>request-supplier-services</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>requicet-supplier-services</name>
     <description>requicet-supplier-services</description>
