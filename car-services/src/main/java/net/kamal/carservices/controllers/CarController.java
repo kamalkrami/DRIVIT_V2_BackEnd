@@ -3,7 +3,7 @@ package net.kamal.carservices.controllers;
 import lombok.AllArgsConstructor;
 import net.kamal.carservices.client.UserRestClient;
 import net.kamal.carservices.entities.Cars;
-import net.kamal.carservices.enums.Status_dipo;
+import net.kamal.carservices.enums.Status_dispo;
 import net.kamal.carservices.model.Users;
 import net.kamal.carservices.repositories.CarRepository;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -39,8 +39,8 @@ public class CarController {
         return carRepository.findById(id_car).get();
     }
 
-    @GetMapping("/cars/dipo/{car_dispo_status}")
-    public List<Cars> getAllCarsByStatusDipo(@PathVariable Status_dipo car_dispo_status){
+    @GetMapping("/cars/dispo/{car_dispo_status}")
+    public List<Cars> getAllCarsByStatusDipo(@PathVariable Status_dispo car_dispo_status){
         List<Cars> carsList = carRepository.getCarsByStatusDipo(car_dispo_status);
         carsList.forEach(cars -> {
             cars.setUsers(userRestClient.findUserById(cars.getId_user()));
@@ -70,8 +70,8 @@ public class CarController {
                     "status", 400
             ));
         }
-        Optional<Cars> user = carRepository.findById(carId);
-        if (user.isPresent()){
+        Optional<Cars> car = carRepository.findById(carId);
+        if (car.isPresent()){
             carRepository.deleteById(carId);
             return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
                     "msg", "Car has been deleted successfully",

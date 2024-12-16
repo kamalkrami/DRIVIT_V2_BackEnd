@@ -20,7 +20,7 @@ public interface CarsRestClient {
     @CircuitBreaker(name="CarServices",fallbackMethod = "defaultgetCarsById")
     Cars getCarsById(@PathVariable Long id_car);
 
-    @GetMapping("/cars/dipo/{car_dispo_status}")
+    @GetMapping("/cars/dispo/{car_dispo_status}")
     @CircuitBreaker(name="CarServices",fallbackMethod = "defaultgetAllCars")
     List<Cars> getAllCarsByStatusDipo(@PathVariable Status_dipo car_dispo_status);
 

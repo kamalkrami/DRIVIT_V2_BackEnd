@@ -1,10 +1,10 @@
-package net.kamal.requicetsupplierservices;
+package net.kamal.requestsupplierservices;
 
-import net.kamal.requicetsupplierservices.client.UserRestClient;
-import net.kamal.requicetsupplierservices.entities.RequicetSupplier;
-import net.kamal.requicetsupplierservices.enums.Status;
-import net.kamal.requicetsupplierservices.enums.UserType;
-import net.kamal.requicetsupplierservices.repositories.RequicetSupplierRepository;
+import net.kamal.requestsupplierservices.client.UserRestClient;
+import net.kamal.requestsupplierservices.entities.RequestSupplier;
+import net.kamal.requestsupplierservices.enums.Status;
+import net.kamal.requestsupplierservices.enums.UserType;
+import net.kamal.requestsupplierservices.repositories.RequestSupplierRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,21 +16,21 @@ import java.util.List;
 
 @SpringBootApplication
 @EnableFeignClients
-public class RequicetSupplierServicesApplication {
+public class RequestSupplierServicesApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RequicetSupplierServicesApplication.class, args);
+        SpringApplication.run(RequestSupplierServicesApplication.class, args);
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(UserRestClient userRestClient, RequicetSupplierRepository requicetSupplierRepository){
+    CommandLineRunner commandLineRunner(UserRestClient userRestClient, RequestSupplierRepository requicetSupplierRepository){
         return args -> {
             userRestClient.getUsersByType(UserType.USER).forEach(user -> {
-                List<RequicetSupplier> requicetSuppliers = List.of(
-                        RequicetSupplier.builder()
+                List<RequestSupplier> requicetSuppliers = List.of(
+                        RequestSupplier.builder()
                                 .users(user)
                                 .id_users(user.getId_user())
-                                .requicetDate(LocalDate.now())
+                                .requestDate(LocalDate.now())
                                 .status(Status.PENDING)
                                 .build()
                 );
