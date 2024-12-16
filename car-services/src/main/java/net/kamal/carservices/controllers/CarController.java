@@ -7,11 +7,13 @@ import net.kamal.carservices.enums.Status_dipo;
 import net.kamal.carservices.model.Users;
 import net.kamal.carservices.repositories.CarRepository;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -44,5 +46,75 @@ public class CarController {
             cars.setUsers(userRestClient.findUserById(cars.getId_user()));
         });
         return carsList;
+    }
+
+    @PostMapping("/cars/addCar")
+    public ResponseEntity<Map<String, Object>> addCar(@RequestBody Cars car){
+        if (car == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                "msg", "Car cannot be null",
+                "status", 400
+        ));
+        carRepository.save(car);
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
+                "msg", "Car has been added successfully",
+                "status", 201
+        ));
+    }
+
+    @DeleteMapping("cars/deletecar/{carId}")
+    public ResponseEntity<Map<String, Object>> deleteCar(@PathVariable Long carId){
+        if (carId == null) {
+            //to check later
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                    "msg", "Car ID cannot be null",
+                    "status", 400
+            ));
+        }
+        Optional<Cars> user = carRepository.findById(carId);
+        if (user.isPresent()){
+            carRepository.deleteById(carId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
+                    "msg", "Car has been deleted successfully",
+                    "status", 200
+            ));
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                    "msg", "Car not found",
+                    "status", 404
+            ));
+        }
+    }
+
+    @PutMapping("cars/updatecar")
+    public ResponseEntity<Map<String, Object>> updateCar(@RequestBody Cars car){
+        //to check later
+        if (car ==  null || car.getId_car() == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                    "msg", "Car or Car ID cannot be null",
+                    "status", 404
+            ));
+        }
+        Cars updatedCar = carRepository.findById(car.getId_car()).orElse(null);
+        if(updatedCar == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                    "msg", "Car not found",
+                    "status", 404
+            ));
+        }
+        updatedCar.setCarName(car.getCarName());
+        updatedCar.setCarImage(car.getCarImage());
+        updatedCar.setCarMatricul(car.getCarMatricul());
+        updatedCar.setCarModel(car.getCarModel());
+        updatedCar.setStatusAdd(car.getStatusAdd());
+        updatedCar.setStatusDipo(car.getStatusDipo());
+        updatedCar.setUsers(car.getUsers());
+        updatedCar.setId_user(car.getId_user());
+
+
+        carRepository.save(updatedCar);
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
+                "msg", "Car has been updated successfully",
+                "status", 201
+        ));
     }
 }

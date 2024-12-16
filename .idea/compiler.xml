@@ -13,26 +13,7 @@
         <module name="discovery-service" />
         <module name="config-services" />
       </profile>
-      <profile name="Annotation profile for car-services" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath>
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-        </processorPath>
-        <module name="car-services" />
-        <module name="users-services" />
-      </profile>
-      <profile name="Annotation profile for car-rental-services" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath>
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-        </processorPath>
-        <module name="car-rental-services" />
-      </profile>
-      <profile name="Annotation profile for requicet-supplier-services" enabled="true">
+      <profile name="Annotation profile for users-services" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -40,6 +21,9 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="requicet-supplier-services" />
+        <module name="users-services" />
+        <module name="car-rental-services" />
+        <module name="car-services" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
