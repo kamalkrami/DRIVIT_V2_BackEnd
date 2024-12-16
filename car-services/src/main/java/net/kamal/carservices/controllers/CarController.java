@@ -70,8 +70,8 @@ public class CarController {
                     "status", 400
             ));
         }
-        Optional<Cars> user = carRepository.findById(carId);
-        if (user.isPresent()){
+        Optional<Cars> car = carRepository.findById(carId);
+        if (car.isPresent()){
             carRepository.deleteById(carId);
             return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
                     "msg", "Car has been deleted successfully",

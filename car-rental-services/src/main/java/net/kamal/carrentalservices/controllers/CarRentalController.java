@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -55,5 +56,27 @@ public class CarRentalController {
         ));
     }
 
-
+    @DeleteMapping("carrental/deletecarrental/{carRentalId}")
+    public ResponseEntity<Map<String, Object>> deleteCarRental(@PathVariable Long carRentalId){
+        if (carRentalId == null) {
+            //to check later
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                    "msg", "CarRental ID cannot be null",
+                    "status", 400
+            ));
+        }
+        Optional<CarRental> carRental = carRentalRepository.findById(carRentalId);
+        if (carRental.isPresent()){
+            carRentalRepository.deleteById(carRentalId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
+                    "msg", "CarRental has been deleted successfully",
+                    "status", 200
+            ));
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                    "msg", "CarRental not found",
+                    "status", 404
+            ));
+        }
+    }
 }
