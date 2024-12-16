@@ -7,11 +7,12 @@ import net.kamal.carrentalservices.entities.CarRental;
 import net.kamal.carrentalservices.model.Cars;
 import net.kamal.carrentalservices.model.Users;
 import net.kamal.carrentalservices.repositories.CarRentalRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -40,5 +41,19 @@ public class CarRentalController {
         carRental.setCars(cars);
         return carRental;
     }
+
+    @PostMapping("/carrental/addCarrental")
+    public ResponseEntity<Map<String, Object>> addCarRental(@RequestBody CarRental carRental){
+        if (carRental == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                "msg", "CarRental cannot be null",
+                "status", 400
+        ));
+        carRentalRepository.save(carRental);
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
+                "msg", "CarRental has been added successfully",
+                "status", 201
+        ));
+    }
+
 
 }
