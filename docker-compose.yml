@@ -1,0 +1,132 @@
+services:
+  my-drivit-discovery-service:
+    build: ./discovery-service
+    container_name: my-drivit-discovery-service
+    ports:
+      - "8761:8761"
+    expose:
+      - "8761"
+    healthcheck:
+      test: ["CMD","curl","-f","http://localhost:8761/actuator/health"]
+      interval: 10s
+      retries: 4
+
+  my-drivit-config-service:
+    build: ./config-services
+    container_name: my-drivit-config-service
+    ports:
+      - "9999:9999"
+    expose:
+      - "9999"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://my-drivit-discovery-service:8761/eureka
+    healthcheck:
+      test: ["CMD","curl","-f","http://localhost:9999/actuator/health"]
+      interval: 10s
+      retries: 4
+    depends_on:
+      my-drivit-discovery-service:
+        condition: service_healthy
+
+  my-drivit-gateway-service:
+    build: ./gateway-services
+    container_name: my-drivit-gateway-service
+    ports:
+      - "8888:8888"
+    expose:
+      - "8888"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://my-drivit-discovery-service:8761/eureka
+      - CONFIG_SERVICE_URL=http://my-drivit-config-service:9999
+    healthcheck:
+      test: ["CMD","curl","-f","http://localhost:8888/actuator/health"]
+      interval: 10s
+      retries: 4
+    depends_on:
+      my-drivit-config-service:
+        condition: service_healthy
+
+  my-drivit-users-service:
+    build: ./users-services
+    container_name: my-drivit-users-service
+    ports:
+      - "8081:8081"
+    expose:
+      - "8081"
+    environment:
+      - DB_URL=jdbc:mysql://host.docker.internal:3306/users-db?createDatabaseIfNotExist=true
+      - DB_USERNAME=root
+      - DB_PASSWORD=
+      - DISCOVERY_SERVICE_URL=http://my-drivit-discovery-service:8761/eureka
+      - CONFIG_SERVICE_URL=http://my-drivit-config-service:9999
+    healthcheck:
+      test: [ "CMD","curl","-f","http://localhost:8081/actuator/health" ]
+      interval: 10s
+      retries: 4
+    depends_on:
+      my-drivit-gateway-service:
+        condition: service_healthy
+
+  my-drivit-cars-service:
+    build: ./car-services
+    container_name: my-drivit-cars-service
+    ports:
+      - "8082:8082"
+    expose:
+      - "8082"
+    environment:
+      - DB_URL=jdbc:mysql://host.docker.internal:3306/users-db?createDatabaseIfNotExist=true
+      - DB_USERNAME=root
+      - DB_PASSWORD=
+      - DISCOVERY_SERVICE_URL=http://my-drivit-discovery-service:8761/eureka
+      - CONFIG_SERVICE_URL=http://my-drivit-config-service:9999
+    healthcheck:
+      test: [ "CMD","curl","-f","http://localhost:8082/actuator/health" ]
+      interval: 10s
+      retries: 4
+    depends_on:
+      my-drivit-users-service:
+        condition: service_healthy
+
+  my-drivit-car-rental-service:
+    build: ./car-rental-services
+    container_name: my-drivit-car-rental-service
+    ports:
+      - "8083:8083"
+    expose:
+      - "8083"
+    environment:
+      - DB_URL=jdbc:mysql://host.docker.internal:3306/users-db?createDatabaseIfNotExist=true
+      - DB_USERNAME=root
+      - DB_PASSWORD=
+      - DISCOVERY_SERVICE_URL=http://my-drivit-discovery-service:8761/eureka
+      - CONFIG_SERVICE_URL=http://my-drivit-config-service:9999
+    healthcheck:
+      test: [ "CMD","curl","-f","http://localhost:8083/actuator/health" ]
+      interval: 10s
+      retries: 4
+    depends_on:
+      my-drivit-cars-service:
+        condition: service_healthy
+
+  my-drivit-request-supplier-service:
+    build: ./request-supplier-services
+    container_name: my-drivit-request-supplier-service
+    ports:
+      - "8084:8084"
+    expose:
+      - "8084"
+    environment:
+      - DB_URL=jdbc:mysql://host.docker.internal:3306/users-db?createDatabaseIfNotExist=true
+      - DB_USERNAME=root
+      - DB_PASSWORD=
+      - DISCOVERY_SERVICE_URL=http://my-drivit-discovery-service:8761/eureka
+      - CONFIG_SERVICE_URL=http://my-drivit-config-service:9999
+    healthcheck:
+      test: [ "CMD","curl","-f","http://localhost:8083/actuator/health" ]
+      interval: 10s
+      retries: 4
+    depends_on:
+      my-drivit-car-rental-service:
+        condition: service_healthy
+
