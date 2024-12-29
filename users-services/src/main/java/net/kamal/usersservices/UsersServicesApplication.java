@@ -40,9 +40,9 @@ public class UsersServicesApplication {
                             .lastName("Anejdam")
                             .userName("Ayoub_Anajdam")
                             .passWord("Ayoub@123")
-                            .cin("CD123456")
+                            .cin("CD987456")
                             .email("Ayoub@gmail.com")
-                            .phone("0682467314")
+                            .phone("0682467315")
                             .status(UserType.SUPPLIER)
                             .build()
             );

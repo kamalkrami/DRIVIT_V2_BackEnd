@@ -1,6 +1,7 @@
 package net.kamal.usersservices.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import net.kamal.usersservices.enums.UserType;
 
@@ -12,8 +13,14 @@ public class Users {
     private String lastName;
     private String userName;
     private String passWord;
+
+    @Column(unique = true, nullable = false)
     private String cin;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(unique = true, nullable = false)
     private String phone;
 
     @Enumerated(EnumType.STRING)

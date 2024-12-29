@@ -43,9 +43,21 @@ public class CarServicesApplication {
                                 .carName("BMW")
                                 .carModel("2024")
                                 .carMatricul("I153247")
-                                .carImage("https://imagecar.com")
+                                .carPrix(300L)
+                                .carImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1dzAY9vxSYgd7Zz6Aji9j2-LaG3-BF5iw5w&s")
                                 .statusDipo(Status_dispo.AVAILABLE)
-                                .statusAdd(Status_add.PENDING)
+                                .statusAdd(Status_add.ACCEPTED)
+                                .build(),
+                        Cars.builder()
+                                .users(user)
+                                .id_user(user.getId_user())
+                                .carName("Mercedes")
+                                .carModel("2024")
+                                .carMatricul("IC168435")
+                                .carPrix(400L)
+                                .carImage("https://www.kbb.com/wp-content/uploads/2022/08/2022-mercedes-amg-eqs-front-left-3qtr.jpg")
+                                .statusDipo(Status_dispo.AVAILABLE)
+                                .statusAdd(Status_add.ACCEPTED)
                                 .build()
                 );
                 carRepository.saveAll(carsList);

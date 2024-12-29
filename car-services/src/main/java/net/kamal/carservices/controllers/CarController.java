@@ -3,6 +3,7 @@ package net.kamal.carservices.controllers;
 import lombok.AllArgsConstructor;
 import net.kamal.carservices.client.UserRestClient;
 import net.kamal.carservices.entities.Cars;
+import net.kamal.carservices.enums.Status_add;
 import net.kamal.carservices.enums.Status_dispo;
 import net.kamal.carservices.model.Users;
 import net.kamal.carservices.repositories.CarRepository;
@@ -39,9 +40,9 @@ public class CarController {
         return carRepository.findById(id_car).get();
     }
 
-    @GetMapping("/cars/dispo/{car_dispo_status}")
-    public List<Cars> getAllCarsByStatusDipo(@PathVariable Status_dispo car_dispo_status){
-        List<Cars> carsList = carRepository.getCarsByStatusDipo(car_dispo_status);
+    @GetMapping("/cars/dispo/{car_dispo_status}/{car_add_status}")
+    public List<Cars> getAllCarsByStatusDipo(@PathVariable Status_dispo car_dispo_status, @PathVariable Status_add car_add_status){
+        List<Cars> carsList = carRepository.getCarsByStatusDipoAndStatusAdd(car_dispo_status,car_add_status);
         carsList.forEach(cars -> {
             cars.setUsers(userRestClient.findUserById(cars.getId_user()));
         });

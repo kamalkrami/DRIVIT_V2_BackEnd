@@ -19,6 +19,7 @@ public class Cars {
     private String carModel;
     private String carMatricul;
     private String carImage;
+    private Long carPrix;
 
     @Enumerated(EnumType.STRING)
     private Status_dispo statusDipo;

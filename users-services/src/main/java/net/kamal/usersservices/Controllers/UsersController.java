@@ -4,12 +4,14 @@ import jakarta.ws.rs.QueryParam;
 import lombok.AllArgsConstructor;
 import net.kamal.usersservices.entities.Users;
 import net.kamal.usersservices.enums.UserType;
+import net.kamal.usersservices.model.AuthRequest;
 import net.kamal.usersservices.repositories.UsersRepository;
 import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -100,8 +102,90 @@ public class UsersController {
         usersRepository.save(updatedUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
                 "msg", "User has been updated successfully",
-                "status", 201
+                "status", 200
         ));
+    }
+
+    @PostMapping("/users/authUser")
+    public ResponseEntity<Map<String, Object>> authUser(@RequestBody(required = false) AuthRequest authRequest) {
+        if (authRequest == null || authRequest.getEmail() == null || authRequest.getPassWord() == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                    "msg", "Invalid Auth Data 1",
+                    "status", 404,
+                    "user", "null"
+            ));
+        }
+
+        String email = authRequest.getEmail();
+        String password = authRequest.getPassWord();
+
+        if (email.isEmpty() || password.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                    "msg", "Invalid Auth Data 2",
+                    "status", 404,
+                    "user", "null"
+            ));
+        } else {
+            Users users = usersRepository.findByEmailAndPassWord(email, password);
+            if (users == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                        "msg", "Failed To Auth User",
+                        "status", 404,
+                        "user", "null"
+                ));
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(Map.of(
+                        "msg", "User successfully Auth",
+                        "status", 200,
+                        "user", users
+                ));
+            }
+        }
+    }
+
+    @PostMapping("/users/registerUser")
+    public ResponseEntity<Map<String, Object>> registerUser(@RequestBody(required = false) Users users) {
+        if (users == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                    "msg", "Invalid User Data",
+                    "status", 400
+            ));
+        }
+
+        try {
+            // Check for duplicates
+            List<String> duplicateFields = new ArrayList<>();
+
+            if (usersRepository.findByCin(users.getCin()) != null) {
+                duplicateFields.add("cin");
+            }
+            if (usersRepository.findByEmail(users.getEmail()) != null) {
+                duplicateFields.add("email");
+            }
+            if (usersRepository.findByPhone(users.getPhone()) != null) {
+                duplicateFields.add("phone");
+            }
+
+            // If any duplicates are found, return a single response
+            if (!duplicateFields.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
+                        "msg", "User Already Exists With Fields: " + String.join(", ", duplicateFields),
+                        "status", 409
+                ));
+            }
+
+            // Save the user if no duplicates are found
+            usersRepository.save(users);
+            return ResponseEntity.status(HttpStatus.OK).body(Map.of(
+                    "msg", "User successfully registered",
+                    "status", 200
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+                    "msg", "Failed to register user",
+                    "status", 500
+            ));
+        }
     }
 
 }

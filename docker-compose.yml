@@ -75,7 +75,7 @@ services:
     expose:
       - "8082"
     environment:
-      - DB_URL=jdbc:mysql://host.docker.internal:3306/users-db?createDatabaseIfNotExist=true
+      - DB_URL=jdbc:mysql://host.docker.internal:3306/cars-db?createDatabaseIfNotExist=true
       - DB_USERNAME=root
       - DB_PASSWORD=
       - DISCOVERY_SERVICE_URL=http://my-drivit-discovery-service:8761/eureka
@@ -96,7 +96,7 @@ services:
     expose:
       - "8083"
     environment:
-      - DB_URL=jdbc:mysql://host.docker.internal:3306/users-db?createDatabaseIfNotExist=true
+      - DB_URL=jdbc:mysql://host.docker.internal:3306/cars-rental-db?createDatabaseIfNotExist=true
       - DB_USERNAME=root
       - DB_PASSWORD=
       - DISCOVERY_SERVICE_URL=http://my-drivit-discovery-service:8761/eureka
@@ -117,7 +117,7 @@ services:
     expose:
       - "8084"
     environment:
-      - DB_URL=jdbc:mysql://host.docker.internal:3306/users-db?createDatabaseIfNotExist=true
+      - DB_URL=jdbc:mysql://host.docker.internal:3306/requicet-supplier-db?createDatabaseIfNotExist=true
       - DB_USERNAME=root
       - DB_PASSWORD=
       - DISCOVERY_SERVICE_URL=http://my-drivit-discovery-service:8761/eureka
