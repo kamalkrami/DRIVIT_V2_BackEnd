@@ -3,6 +3,7 @@ package net.kamal.carrentalservices;
 import net.kamal.carrentalservices.client.CarsRestClient;
 import net.kamal.carrentalservices.client.UsersRestClient;
 import net.kamal.carrentalservices.entities.CarRental;
+import net.kamal.carrentalservices.enums.Status_add;
 import net.kamal.carrentalservices.enums.Status_dipo;
 import net.kamal.carrentalservices.enums.Status_rental;
 import net.kamal.carrentalservices.enums.UserType;
@@ -26,13 +27,14 @@ public class CarRentalServicesApplication {
         SpringApplication.run(CarRentalServicesApplication.class, args);
     }
 
-    @Bean
+    // CommandLineRunner Function To add Same Data to the Data base For tests
+    /*@Bean
     CommandLineRunner commandLineRunner(CarRentalRepository carRentalRepository,
                                         CarsRestClient carsRestClient,
                                         UsersRestClient usersRestClient) {
         return args -> {
             List<Users> users = usersRestClient.getUsersByType(UserType.USER);
-            List<Cars> cars = carsRestClient.getAllCarsByStatusDipo(Status_dipo.AVAILABLE);
+            List<Cars> cars = carsRestClient.getCarsByStatusDipoAndStatusAdd(Status_dipo.AVAILABLE, Status_add.ACCEPTED);
 
             if (users.isEmpty()) {
                 System.out.println("No users found!");
@@ -55,7 +57,7 @@ public class CarRentalServicesApplication {
 
                     try {
                         carRentalRepository.save(carRental);
-                        System.out.println("Saved: " + carRental);
+                        //System.out.println("Saved: " + carRental);
                     } catch (Exception e) {
                         System.err.println("Error saving rental: " + e.getMessage());
                         e.printStackTrace();
@@ -63,6 +65,6 @@ public class CarRentalServicesApplication {
                 });
             });
         };
-    }
+    }*/
 
 }

@@ -41,7 +41,7 @@ public class CarController {
     }
 
     @GetMapping("/cars/dispo/{car_dispo_status}/{car_add_status}")
-    public List<Cars> getAllCarsByStatusDipo(@PathVariable Status_dispo car_dispo_status, @PathVariable Status_add car_add_status){
+    public List<Cars> getCarsByStatusDipoAndStatusAdd(@PathVariable Status_dispo car_dispo_status, @PathVariable Status_add car_add_status){
         List<Cars> carsList = carRepository.getCarsByStatusDipoAndStatusAdd(car_dispo_status,car_add_status);
         carsList.forEach(cars -> {
             cars.setUsers(userRestClient.findUserById(cars.getId_user()));

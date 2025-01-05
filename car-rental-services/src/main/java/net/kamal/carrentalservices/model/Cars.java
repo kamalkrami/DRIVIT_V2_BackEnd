@@ -2,9 +2,7 @@ package net.kamal.carrentalservices.model;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import net.kamal.carrentalservices.enums.Status_add;
 import net.kamal.carrentalservices.enums.Status_dipo;
 
@@ -17,6 +15,7 @@ public class Cars {
     private String carModel;
     private String carMatricul;
     private String carImage;
+    private Long carPrix;
 
     @Enumerated(EnumType.STRING)
     private Status_dipo statusDipo;

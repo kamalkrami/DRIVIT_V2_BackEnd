@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import net.kamal.carrentalservices.client.CarsRestClient;
 import net.kamal.carrentalservices.client.UsersRestClient;
 import net.kamal.carrentalservices.entities.CarRental;
+import net.kamal.carrentalservices.enums.Status_dipo;
 import net.kamal.carrentalservices.model.Cars;
 import net.kamal.carrentalservices.model.Users;
 import net.kamal.carrentalservices.repositories.CarRentalRepository;
@@ -34,25 +35,30 @@ public class CarRentalController {
     }
 
     @GetMapping("/carrental/{id_user}")
-    public CarRental getCarRental(@PathVariable Long id_user){
-        CarRental carRental = carRentalRepository.findById(id_user).get();
-        Cars cars = carsRestClient.getCarsById(carRental.getId_car());
-        Users users = usersRestClient.findUserById(carRental.getId_user());
-        carRental.setUsers(users);
-        carRental.setCars(cars);
+    public List<CarRental> getCarRental(@PathVariable Long id_user){
+        List<CarRental> carRental = carRentalRepository.findAllByIduser(id_user);
+        carRental.forEach(carRental1 -> {
+            Cars cars = carsRestClient.getCarsById(carRental1.getId_car());
+            Users users = usersRestClient.findUserById(carRental1.getId_user());
+            carRental1.setUsers(users);
+            carRental1.setCars(cars);
+        });
         return carRental;
     }
 
     @PostMapping("/carrental/addCarrental")
     public ResponseEntity<Map<String, Object>> addCarRental(@RequestBody CarRental carRental){
         if (carRental == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
-                "msg", "CarRental cannot be null",
+                "msg", "CarRental Cannot Be Null",
                 "status", 400
         ));
+        Cars cars = carRental.getCars();
+        cars.setStatusDipo(Status_dipo.NOT_AVAILABLE);
+        carsRestClient.updateCar(cars);
         carRentalRepository.save(carRental);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
-                "msg", "CarRental has been added successfully",
-                "status", 201
+                "msg", "Car Rental Added Successfully",
+                "status", 200
         ));
     }
 
@@ -61,20 +67,24 @@ public class CarRentalController {
         if (carRentalId == null) {
             //to check later
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
-                    "msg", "CarRental ID cannot be null",
+                    "msg", "CarRental ID Cannot Be Null",
                     "status", 400
             ));
         }
+        CarRental CarRental_update = carRentalRepository.findById(carRentalId).get();
         Optional<CarRental> carRental = carRentalRepository.findById(carRentalId);
         if (carRental.isPresent()){
+            Cars cars = carsRestClient.getCarsById(CarRental_update.getId_car());
+            cars.setStatusDipo(Status_dipo.AVAILABLE);
+            carsRestClient.updateCar(cars);
             carRentalRepository.deleteById(carRentalId);
             return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
-                    "msg", "CarRental has been deleted successfully",
+                    "msg", "CarRental Deleted Successfully",
                     "status", 200
             ));
         }else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
-                    "msg", "CarRental not found",
+                    "msg", "CarRental Not Found",
                     "status", 404
             ));
         }
