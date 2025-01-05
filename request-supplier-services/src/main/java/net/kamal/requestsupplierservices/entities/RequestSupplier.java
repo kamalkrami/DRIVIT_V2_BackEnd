@@ -15,7 +15,7 @@ public class RequestSupplier {
 
     @Transient
     private Users users;
-    private Long id_users;
+    private Long id_user;
 
     private LocalDate requestDate;
 

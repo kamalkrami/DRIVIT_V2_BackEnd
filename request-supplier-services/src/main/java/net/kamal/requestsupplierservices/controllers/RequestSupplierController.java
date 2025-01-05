@@ -23,29 +23,56 @@ public class RequestSupplierController {
     public List<RequestSupplier> getAllRequestSupplier(){
         List<RequestSupplier> requestSuppliers = requestSupplierRepository.findAll();
         requestSuppliers.forEach(requestSupplier -> {
-            requestSupplier.setUsers(userRestClient.findUserById(requestSupplier.getId_users()));
+            requestSupplier.setUsers(userRestClient.findUserById(requestSupplier.getId_user()));
         });
         return requestSupplierRepository.findAll();
     }
 
-    @GetMapping("/requestsupplier/{id_request}")
+    @GetMapping("/requestsupplier/by_id_request/{id_request}")
     public RequestSupplier getSupplierById(@PathVariable Long id_request){
         RequestSupplier requestSupplier  = requestSupplierRepository.findById(id_request).get();
-        Users users =  userRestClient.findUserById(requestSupplier.getId_users());
+        Users users =  userRestClient.findUserById(requestSupplier.getId_user());
         requestSupplier.setUsers(users);
-        return requestSupplierRepository.findById(id_request).get();
+        return requestSupplier;
+    }
+
+    @GetMapping("/requestsupplier/by_id_user/{id_user}")
+    public ResponseEntity<Map<String, Object>> getSupplierById_User(@PathVariable Long id_user){
+        if (id_user == null) {
+            //to check later
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                    "msg", "RequestSupplier ID User Cannot Be Null",
+                    "status", 400
+            ));
+        }
+        RequestSupplier requestSupplier = requestSupplierRepository.findByIduser(id_user);
+
+        if (requestSupplier != null){
+            Users users =  userRestClient.findUserById(requestSupplier.getId_user());
+            requestSupplier.setUsers(users);
+            return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
+                    "msg", "RequestSupplier Of User Found successfully",
+                    "status", 200,
+                    "requestSupplier",requestSupplier
+            ));
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                    "msg", "RequestSupplier Of User Not Found",
+                    "status", 404
+            ));
+        }
     }
 
     @PostMapping("/requestsupplier/addRequestsupplier")
     public ResponseEntity<Map<String, Object>> addRequestSupplier(@RequestBody RequestSupplier requestsupplier){
         if (requestsupplier == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
-                "msg", "Request Supplier cannot be null",
+                "msg", "Request Supplier Cannot Ne Null",
                 "status", 400
         ));
         requestSupplierRepository.save(requestsupplier);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
-                "msg", "Request Supplier has been added successfully",
-                "status", 201
+                "msg", "Request Supplier Added Successfully",
+                "status", 200
         ));
     }
 
@@ -62,7 +89,7 @@ public class RequestSupplierController {
         if (requestSupplier.isPresent()){
             requestSupplierRepository.deleteById(requestSupplierId);
             return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
-                    "msg", "RequestSupplier has been deleted successfully",
+                    "msg", "Request Supplier Deleted Successfully",
                     "status", 200
             ));
         }else {
@@ -91,7 +118,7 @@ public class RequestSupplierController {
         }
         updatedRequestSupplier.setUsers(requestSupplier.getUsers());
         updatedRequestSupplier.setRequestDate(requestSupplier.getRequestDate());
-        updatedRequestSupplier.setId_users(requestSupplier.getId_users());
+        updatedRequestSupplier.setId_user(requestSupplier.getId_user());
         updatedRequestSupplier.setStatus(requestSupplier.getStatus());
 
 

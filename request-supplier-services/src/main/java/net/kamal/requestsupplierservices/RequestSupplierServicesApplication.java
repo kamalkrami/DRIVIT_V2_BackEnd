@@ -29,7 +29,7 @@ public class RequestSupplierServicesApplication {
                 List<RequestSupplier> requicetSuppliers = List.of(
                         RequestSupplier.builder()
                                 .users(user)
-                                .id_users(user.getId_user())
+                                .id_user(user.getId_user())
                                 .requestDate(LocalDate.now())
                                 .status(Status.PENDING)
                                 .build()
