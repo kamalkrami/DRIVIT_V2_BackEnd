@@ -52,12 +52,12 @@ public class CarController {
     @PostMapping("/cars/addCar")
     public ResponseEntity<Map<String, Object>> addCar(@RequestBody Cars car){
         if (car == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
-                "msg", "Car cannot be null",
+                "msg", "Car Cannot Be Null",
                 "status", 400
         ));
         carRepository.save(car);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
-                "msg", "Car has been added successfully",
+                "msg", "Car Added Successfully",
                 "status", 201
         ));
     }

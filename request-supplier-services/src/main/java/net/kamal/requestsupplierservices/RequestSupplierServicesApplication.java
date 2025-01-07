@@ -21,8 +21,8 @@ public class RequestSupplierServicesApplication {
     public static void main(String[] args) {
         SpringApplication.run(RequestSupplierServicesApplication.class, args);
     }
-
-    @Bean
+    // commandLineRunner function to add same data to the data base for tests
+    /*@Bean
     CommandLineRunner commandLineRunner(UserRestClient userRestClient, RequestSupplierRepository requicetSupplierRepository){
         return args -> {
             userRestClient.getUsersByType(UserType.USER).forEach(user -> {
@@ -37,5 +37,5 @@ public class RequestSupplierServicesApplication {
                 requicetSupplierRepository.saveAll(requicetSuppliers);
             });
         };
-    }
+    }*/
 }
