@@ -40,6 +40,15 @@ public class CarController {
         return carRepository.findById(id_car).get();
     }
 
+    @GetMapping("/cars/id_supplier/{id_supplier}")
+    public List<Cars> getCarsByID_Supplier(@PathVariable Long id_supplier){
+        List<Cars> carsList = carRepository.getCarsByID_Supplier(id_supplier);
+        carsList.forEach(cars -> {
+            cars.setUsers(userRestClient.findUserById(cars.getId_user()));
+        });
+        return carsList;
+    }
+
     @GetMapping("/cars/dispo/{car_dispo_status}/{car_add_status}")
     public List<Cars> getCarsByStatusDipoAndStatusAdd(@PathVariable Status_dispo car_dispo_status, @PathVariable Status_add car_add_status){
         List<Cars> carsList = carRepository.getCarsByStatusDipoAndStatusAdd(car_dispo_status,car_add_status);
@@ -114,7 +123,7 @@ public class CarController {
 
         carRepository.save(updatedCar);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
-                "msg", "Car has been updated successfully",
+                "msg", "Car Updated successfully",
                 "status", 201
         ));
     }

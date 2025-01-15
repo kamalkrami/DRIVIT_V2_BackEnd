@@ -5,6 +5,7 @@ import net.kamal.carrentalservices.client.CarsRestClient;
 import net.kamal.carrentalservices.client.UsersRestClient;
 import net.kamal.carrentalservices.entities.CarRental;
 import net.kamal.carrentalservices.enums.Status_dipo;
+import net.kamal.carrentalservices.enums.Status_rental;
 import net.kamal.carrentalservices.model.Cars;
 import net.kamal.carrentalservices.model.Users;
 import net.kamal.carrentalservices.repositories.CarRentalRepository;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -44,6 +46,22 @@ public class CarRentalController {
             carRental1.setCars(cars);
         });
         return carRental;
+    }
+
+    @GetMapping("/carrentalSupplier/{id_user}")
+    public List<CarRental> getSupplierCarRental(@PathVariable Long id_user){
+        List<CarRental> carSupplierRental = carRentalRepository.findAll();
+        List<CarRental> filtered = new ArrayList<>();
+        carSupplierRental.forEach(carRental -> {
+            Cars cars = carsRestClient.getCarsById(carRental.getId_car());
+            Users users = usersRestClient.findUserById(carRental.getId_user());
+            carRental.setUsers(users);
+            carRental.setCars(cars);
+            if(carRental.getCars().getId_user() == id_user && carRental.getStatusRental() == Status_rental.PENDING){
+                filtered.add(carRental);
+            }
+        });
+        return filtered;
     }
 
     @PostMapping("/carrental/addCarrental")
@@ -99,7 +117,7 @@ public class CarRentalController {
                     "status", 404
             ));
         }
-        CarRental updatedCar = carRentalRepository.findById(carRental.getId_car()).orElse(null);
+        CarRental updatedCar = carRentalRepository.findById(carRental.getId_carRental()).orElse(null);
         if(updatedCar == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
                     "msg", "CarRental not found",
@@ -113,9 +131,12 @@ public class CarRentalController {
         updatedCar.setRentalTime(carRental.getRentalTime());
         updatedCar.setStatusRental(carRental.getStatusRental());
 
+        Cars cars = updatedCar.getCars();
+        carsRestClient.updateCar(cars);
+
         carRentalRepository.save(updatedCar);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
-                "msg", "CarRental has been updated successfully",
+                "msg", "CarRental Updated successfully",
                 "status", 201
         ));
     }
