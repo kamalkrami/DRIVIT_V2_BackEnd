@@ -44,6 +44,16 @@ public class UsersServicesApplication {
                             .email("Ayoub@gmail.com")
                             .phone("0682467315")
                             .status(UserType.SUPPLIER)
+                            .build(),
+                    Users.builder()
+                            .firstName("Admin")
+                            .lastName("Admin")
+                            .userName("Admin_Admin")
+                            .passWord("Admin@123")
+                            .cin("CD987466")
+                            .email("Admin@gmail.com")
+                            .phone("0652567515")
+                            .status(UserType.ADMIN)
                             .build()
             );
             usersRepository.saveAll(usersList);

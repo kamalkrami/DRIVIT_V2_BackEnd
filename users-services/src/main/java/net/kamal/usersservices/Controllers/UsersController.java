@@ -101,7 +101,7 @@ public class UsersController {
 
         usersRepository.save(updatedUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
-                "msg", "User has been updated successfully",
+                "msg", "User Updated successfully",
                 "status", 200
         ));
     }

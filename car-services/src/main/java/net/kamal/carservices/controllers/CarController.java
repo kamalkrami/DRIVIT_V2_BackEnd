@@ -119,7 +119,7 @@ public class CarController {
         updatedCar.setStatusDipo(car.getStatusDipo());
         updatedCar.setUsers(car.getUsers());
         updatedCar.setId_user(car.getId_user());
-
+        updatedCar.setCarPrix(car.getCarPrix());
 
         carRepository.save(updatedCar);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
