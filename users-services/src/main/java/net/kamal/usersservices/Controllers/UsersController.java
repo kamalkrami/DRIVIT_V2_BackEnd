@@ -45,7 +45,7 @@ public class UsersController {
         ));
         usersRepository.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
-                "msg", "User has been added successfully",
+                "msg", "User Added successfully",
                 "status", 201
         ));
     }

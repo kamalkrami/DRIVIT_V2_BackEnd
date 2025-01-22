@@ -3,6 +3,7 @@ package net.kamal.requestsupplierservices.controllers;
 import lombok.AllArgsConstructor;
 import net.kamal.requestsupplierservices.client.UserRestClient;
 import net.kamal.requestsupplierservices.entities.RequestSupplier;
+import net.kamal.requestsupplierservices.enums.Status;
 import net.kamal.requestsupplierservices.model.Users;
 import net.kamal.requestsupplierservices.repositories.RequestSupplierRepository;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,15 @@ public class RequestSupplierController {
     @GetMapping("/requestsupplier")
     public List<RequestSupplier> getAllRequestSupplier(){
         List<RequestSupplier> requestSuppliers = requestSupplierRepository.findAll();
+        requestSuppliers.forEach(requestSupplier -> {
+            requestSupplier.setUsers(userRestClient.findUserById(requestSupplier.getId_user()));
+        });
+        return requestSupplierRepository.findAll();
+    }
+
+    @GetMapping("/requestsupplier/by_status/{status}")
+    public List<RequestSupplier> getAllRequestSupplierByStatus(@PathVariable Status status){
+        List<RequestSupplier> requestSuppliers = requestSupplierRepository.findAllByStatus(status);
         requestSuppliers.forEach(requestSupplier -> {
             requestSupplier.setUsers(userRestClient.findUserById(requestSupplier.getId_user()));
         });
@@ -124,7 +134,39 @@ public class RequestSupplierController {
 
         requestSupplierRepository.save(updatedRequestSupplier);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
-                "msg", "RequestSupplier has been updated successfully",
+                "msg", "RequestSupplier Updated successfully",
+                "status", 201
+        ));
+    }
+
+    @PutMapping("requestsupplier/editRequestSupplier")
+    public ResponseEntity<Map<String, Object>> editRequestSupplier(@RequestBody RequestSupplier requestSupplier){
+        //to check later
+        if (requestSupplier ==  null || requestSupplier.getId_request() == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                    "msg", "RequestSupplier or CarRental ID cannot be null",
+                    "status", 404
+            ));
+        }
+        RequestSupplier updatedRequestSupplier = requestSupplierRepository.findById(requestSupplier.getId_request()).orElse(null);
+        if(updatedRequestSupplier == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                    "msg", "RequestSupplier not found",
+                    "status", 404
+            ));
+        }
+        updatedRequestSupplier.setUsers(requestSupplier.getUsers());
+        updatedRequestSupplier.setRequestDate(requestSupplier.getRequestDate());
+        updatedRequestSupplier.setId_user(requestSupplier.getId_user());
+        updatedRequestSupplier.setStatus(requestSupplier.getStatus());
+
+        Users users = requestSupplier.getUsers();
+        users.setId_user(requestSupplier.getId_user());
+        userRestClient.updateUser(users);
+
+        requestSupplierRepository.save(updatedRequestSupplier);
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
+                "msg", "Request Supplier Accepted Successfully",
                 "status", 201
         ));
     }
